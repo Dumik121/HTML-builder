@@ -1,14 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 
-let dataStringified = "";
 console.log("Вывод в консоль приветственного сообщения:");
+
 process.stdin.on("data", (data) => {
-  dataStringified = data.toString();
+  const userInput = data.toString().trim();
 
-  fs.writeFile(path.join(__dirname, "text.txt"), dataStringified, (err) => {
+  if (userInput === "exit") {
     console.log("Реализация прощального сообщения при остановке процесса");
-  process.exit();
-  });
+    process.exit();
+  } else {
+    const filePath = path.join(__dirname, "text.txt");
+    const writeStream = fs.createWriteStream(filePath, { flags: "a" });
 
+    writeStream.write(userInput + "\n", () => {
+      console.log(`Текст "${userInput}" записан в файл.`);
+    });
+  }
 });

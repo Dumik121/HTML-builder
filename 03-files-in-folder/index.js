@@ -7,7 +7,11 @@ fs.readdir(folderPath, { withFileTypes: true }, (err, files) => {
   if (err) console.log(err);
   else {
     files.forEach((file) => {
-      console.log(file);
+      if (file.isFile()) {
+        console.log(`${file.name} - ${path.extname(file.name)}`);
+      }
     });
   }
 });
+
+
